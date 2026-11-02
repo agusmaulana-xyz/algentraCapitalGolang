@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b1118">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Admin Console — Algentra Capital</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/assets/server-search.css">
+    <link rel="stylesheet" href="/assets/account-management.css">
+    <script src="/assets/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="/" aria-label="MT5 Login home">
+          <span class="brand-mark" aria-hidden="true">M</span>
+          <span class="brand-copy"><strong>algentra<span>/</span>capital</strong><small>ADMIN CONSOLE</small></span>
+        </a>
+        <div class="sidebar-rule"></div>
+        <div class="side-label">WORKSPACE</div>
+        <a class="nav-item" href="/admin/signals"><span class="nav-icon">TG</span> Manage Signal Telegram</a>
+        <a class="nav-item active" href="/" aria-current="page"><span class="nav-icon">◈</span> Koneksi akun</a>
+        <div class="side-note">
+          <span class="note-dot"></span>
+          <div><strong>Private by default</strong><p>Aplikasi hanya tersedia di komputer ini.</p></div>
+        </div>
+        <div class="sidebar-footer"><span class="tiny-orbit">◌</span><span>MT5 account utility</span><span class="version">v0.1</span></div>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <div class="breadcrumb"><span>Workspace</span><b>/</b><strong>Koneksi akun</strong></div>
+          <div class="topbar-right"><span id="modeBadge" class="mode-badge" data-mode="terminal"><i></i><span>REAL · MT5</span></span><span class="local-badge"><span class="lock-icon">⌑</span> PRIVATE</span><button id="logoutButton" class="admin-logout" type="button">Keluar</button></div>
+        </header>
+
+        <div class="content-wrap">
+          <section class="page-heading">
+            <div>
+              <p class="eyebrow">ACCOUNT ACCESS <span>—</span> MT5</p>
+            <h1>Copy trading MT5<span class="heading-period">.</span></h1>
+            <p class="subtitle">Hubungkan akun utama dan akun client. Client mulai dalam simulasi; order live harus diaktifkan secara eksplisit.</p>
+            </div>
+            <div class="heading-mark" aria-hidden="true"><span>MT</span><i>5</i></div>
+          </section>
+
+          <section class="copy-dashboard" aria-label="Pengaturan copy trading">
+            <div class="copy-grid">
+              <section class="panel copy-panel" aria-labelledby="masterCopyTitle">
+                <div class="panel-heading">
+                  <div><p class="section-kicker">MASTER <span>/</span> SUMBER ENTRY</p><h2 id="masterCopyTitle">Akun utama</h2></div>
+                  <span class="role-mark">M</span>
+                </div>
+                <p class="panel-intro">Posisi terbuka dari terminal ini menjadi sinyal untuk akun client yang aktif.</p>
+                <form id="masterForm" autocomplete="off">
+                  <label for="masterLogin">Nomor login</label>
+                  <div class="input-wrap"><span class="input-prefix">ID</span><input id="masterLogin" name="login" type="text" inputmode="numeric" maxlength="20" required></div>
+                  <label for="masterServer">Server broker</label>
+                  <div class="server-search">
+                    <div class="input-wrap"><span class="input-prefix server-prefix">⌁</span><input id="masterServer" class="server-input" name="server" type="text" maxlength="120" autocomplete="off" aria-autocomplete="list" aria-controls="masterServerSuggestions" aria-expanded="false" required placeholder="Cari nama broker atau server"></div>
+                    <div id="masterServerSuggestions" class="server-results" role="listbox" hidden></div>
+                  </div>
+                  <label for="masterPassword">Password trading</label>
+                  <div class="input-wrap"><span class="input-prefix password-prefix">••</span><input id="masterPassword" name="password" type="password" maxlength="128" autocomplete="new-password" required></div>
+                  <button id="masterButton" class="primary-button" type="submit"><span class="button-label">Hubungkan akun utama</span></button>
+                </form>
+                <div id="masterResult" class="result-box" role="status" aria-live="polite" hidden></div>
+                <div id="masterStatusCard" class="copy-status-card" aria-live="polite"><strong>Akun utama belum dihubungkan</strong><span>Hubungkan akun MT5 yang akan menjadi sumber entry.</span></div>
+                <button id="pauseMasterButton" class="secondary-button" type="button" hidden>Jeda akun utama</button>
+                <button id="deleteMasterButton" class="secondary-button delete-account-button" type="button" hidden>Hapus akun utama &amp; folder terminal</button>
+              </section>
+
+              <section class="panel copy-panel" aria-labelledby="clientCopyTitle">
+                <div class="panel-heading">
+                  <div><p class="section-kicker">CLIENT <span>/</span> PENERIMA ENTRY</p><h2 id="clientCopyTitle">Tambah akun client</h2></div>
+                  <span class="role-mark client-mark">C</span>
+                </div>
+                <p class="panel-intro">Akun tersambung dalam mode standby. Pengaturan lot dan batas risiko berlaku per client.</p>
+                <form id="clientForm" autocomplete="off">
+                  <label for="clientLogin">Nomor login</label>
+                  <div class="input-wrap"><span class="input-prefix">ID</span><input id="clientLogin" name="login" type="text" inputmode="numeric" maxlength="20" required></div>
+                  <label for="clientServer">Server broker</label>
+                  <div class="server-search">
+                    <div class="input-wrap"><span class="input-prefix server-prefix">⌁</span><input id="clientServer" class="server-input" name="server" type="text" maxlength="120" autocomplete="off" aria-autocomplete="list" aria-controls="clientServerSuggestions" aria-expanded="false" required placeholder="Cari nama broker atau server"></div>
+                    <div id="clientServerSuggestions" class="server-results" role="listbox" hidden></div>
+                  </div>
+                  <label for="clientPassword">Password trading</label>
+                  <div class="input-wrap"><span class="input-prefix password-prefix">••</span><input id="clientPassword" name="password" type="password" maxlength="128" autocomplete="new-password" required></div>
+                  <div class="risk-grid">
+                    <div><label for="clientLotMode">Mode lot</label><select id="clientLotMode"><option value="rasio">Rasio lot utama</option><option value="tetap">Lot tetap</option></select></div>
+                    <div><label for="clientRatio">Rasio</label><input id="clientRatio" type="number" min="0.01" max="5" step="0.01" value="1"></div>
+                    <div><label for="clientFixedLot">Lot tetap</label><input id="clientFixedLot" type="number" min="0.01" max="5" step="0.01" value="0.01"></div>
+                    <div><label for="clientMaxOrder">Maks lot / entry</label><input id="clientMaxOrder" type="number" min="0.01" max="5" step="0.01" value="0.10"></div>
+                    <div><label for="clientMaxTotal">Maks total lot</label><input id="clientMaxTotal" type="number" min="0.01" max="10" step="0.01" value="0.50"></div>
+                    <div><label for="clientMaxPositions">Maks posisi</label><input id="clientMaxPositions" type="number" min="1" max="100" step="1" value="10"></div>
+                  </div>
+                  <p class="field-help"><span class="help-lock">⌑</span>Password hanya dipakai untuk menghubungkan terminal dan tidak disimpan.</p>
+                  <button id="clientButton" class="primary-button" type="submit"><span class="button-label">Hubungkan akun client</span></button>
+                </form>
+                <div id="clientResult" class="result-box" role="status" aria-live="polite" hidden></div>
+              </section>
+            </div>
+
+            <section class="panel copy-clients-panel" aria-labelledby="copyClientsTitle">
+              <div class="panel-heading account-heading">
+                <div><p class="section-kicker">FOLLOWERS <span>/</span> STATUS TERMINAL</p><h2 id="copyClientsTitle">Akun client tersambung</h2></div>
+                <span id="copyClientCount" class="count-badge">00</span>
+              </div>
+              <p class="panel-intro">Mode simulasi tidak mengirim order. Jeda copy tidak menutup posisi yang sudah ada di akun client.</p>
+              <div id="copyClientsList" class="copy-clients-list" aria-live="polite"><div class="empty-state"><strong>Belum ada akun client</strong><p>Akun client yang terhubung akan muncul di sini.</p></div></div>
+            </section>
+          </section>
+
+          <section id="terminalNotice" class="mode-notice terminal-notice" hidden>
+            <div class="notice-icon">!</div>
+            <div><strong id="terminalNoticeTitle">Terminal belum siap</strong><p id="terminalNoticeText">Pilih file terminal64.exe sebelum memeriksa akun.</p></div>
+          </section>
+
+          <div class="workspace-grid">
+            <section class="panel connect-panel" aria-labelledby="connectTitle">
+              <div class="panel-heading">
+                <div><p class="section-kicker">01 <span>/</span> LOGIN DETAILS</p><h2 id="connectTitle">Detail akun</h2></div>
+                <span class="step-mark">↗</span>
+              </div>
+              <p class="panel-intro">Gunakan informasi login trading dari broker MT5 kamu. Password hanya dipakai selama pemeriksaan.</p>
+              <form id="connectForm" autocomplete="off">
+                <label for="login">Nomor login</label>
+                <div class="input-wrap"><span class="input-prefix">ID</span><input id="login" name="login" type="text" inputmode="numeric" placeholder="Contoh: 12345678" maxlength="20" required></div>
+                <div class="field-row">
+                  <div class="field-grow"><label for="server">Server broker</label><div class="server-search"><div class="input-wrap"><span class="input-prefix server-prefix">⌁</span><input id="server" name="server" type="text" placeholder="Cari nama broker atau server" maxlength="120" autocomplete="off" aria-autocomplete="list" aria-controls="serverSuggestions" aria-expanded="false" required></div><div id="serverSuggestions" class="server-results" role="listbox" hidden></div></div><p class="server-help">Cari nama broker, lalu pilih server akun Cent yang diberikan broker. XAUUSDc adalah pair, bukan server login.</p></div>
+                </div>
+                <label for="password">Password trading</label>
+                <div class="input-wrap"><span class="input-prefix password-prefix">••</span><input id="password" name="password" type="password" placeholder="Masukkan password akun MT5" maxlength="128" required autocomplete="new-password"></div>
+                <p class="field-help"><span class="help-lock">⌑</span> Tidak ditulis ke database atau ditampilkan kembali.</p>
+                <button id="connectButton" class="primary-button" type="submit"><span class="button-label">Verifikasi login broker</span><span class="button-arrow">↗</span></button>
+              </form>
+              <div id="resultBox" class="result-box" role="status" aria-live="polite" hidden></div>
+              <div class="panel-foot"><span class="foot-pulse"></span><span id="connectionHint">Pemeriksaan akan dijalankan melalui terminal MT5.</span></div>
+            </section>
+
+            <section class="panel accounts-panel" aria-labelledby="accountsTitle">
+              <div class="panel-heading account-heading">
+                <div><p class="section-kicker">02 <span>/</span> RECENT CHECKS</p><h2 id="accountsTitle">Akun tersimpan</h2></div>
+                <span id="accountCount" class="count-badge">00</span>
+              </div>
+              <p class="panel-intro">Saldo ditampilkan setelah broker memvalidasi login. Password tidak disimpan.</p>
+              <div id="accountsList" class="accounts-list" aria-live="polite"><div class="empty-state"><span class="empty-icon">◎</span><strong>Belum ada pemeriksaan</strong><p>Akun yang diuji akan muncul di sini.</p></div></div>
+              <div class="database-foot"><span class="database-icon">▤</span><div><strong>SQLite local storage</strong><span>Data tersimpan di <code>data/mt5-login.db</code></span></div><span class="database-live">ACTIVE</span></div>
+            </section>
+          </div>
+
+          <footer class="page-footer"><span>ALGENTRA MT5 WORKSPACE</span><span>Local copy trading · SQLite · Localhost</span></footer>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#0b1118">
+  <title>Manage Signal Telegram | Algentra Capital</title>
+  <link rel="stylesheet" href="/assets/signal-management.css">
+  <script src="/assets/signal-management.js" defer></script>
+</head>
+<body>
+  <main class="layout">
+    <header class="topbar">
+      <a class="brand" href="/admin"><span class="brand-mark">A</span><span><strong>algentra<span>/</span>capital</strong><small>ADMIN WORKSPACE</small></span></a>
+      <nav aria-label="Navigasi admin"><a href="/admin">Copy trading</a><a class="active" href="/admin/signals" aria-current="page">Manage Signal Telegram</a></nav>
+      <button id="logoutButton" class="quiet-button" type="button">Keluar</button>
+    </header>
+    <section class="hero">
+      <div><p class="eyebrow">SIGNAL DESK <span>/</span> TELEGRAM + GEMINI</p><h1>Manage Signal Telegram<span>.</span></h1><p class="intro">Pantau grup sumber, periksa hasil parsing, lalu aktifkan pengiriman ke akun utama MT5 saat semua koneksi siap.</p></div>
+      <div class="hero-mark" aria-hidden="true">AI<span>·</span>MT5</div>
+    </section>
+    <section class="status-grid" aria-label="Status koneksi">
+      <article class="status-card"><div class="card-top"><span>AKUN TELEGRAM</span><i id="telegramDot" class="dot"></i></div><strong id="telegramState">Memeriksa...</strong><small id="telegramDetail">Login akun Telegram personal</small></article>
+      <article class="status-card"><div class="card-top"><span>GEMINI PARSER</span><i id="geminiDot" class="dot"></i></div><strong id="geminiState">Memeriksa...</strong><small id="geminiDetail">Structured output + validasi lokal</small></article>
+      <article class="status-card"><div class="card-top"><span>AKUN UTAMA MT5</span><i id="masterDot" class="dot"></i></div><strong id="masterState">Memeriksa...</strong><small id="masterDetail">Master copy trading</small></article>
+      <article class="status-card"><div class="card-top"><span>EXPERT SIGNAL EA</span><i id="eaDot" class="dot"></i></div><strong id="eaState">Memeriksa...</strong><small id="eaDetail">Heartbeat terminal master</small></article>
+    </section>
+    <section class="grid-two">
+      <article class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">01 <span>/</span> TELEGRAM USER ACCOUNT</p><h2>Koneksi akun Telegram</h2></div><span class="step">TG</span></div>
+        <p class="muted">Login memakai akun Telegram personal dengan kode verifikasi Telegram. Sesi disimpan lokal dengan izin file terbatas.</p>
+        <div id="telegramConnected" class="connected-box" hidden><div><strong id="telegramAccount">Terhubung</strong><small>Grup dapat dipilih sebagai sumber signal.</small></div><button id="telegramLogout" class="secondary-button" type="button">Keluar dari Telegram</button></div>
+        <form id="phoneForm" class="form-stack"><label for="phone">Nomor telepon Telegram</label><input id="phone" type="tel" autocomplete="tel" placeholder="+628123456789" maxlength="24" required><button class="primary-button" type="submit">Kirim kode login</button></form>
+        <form id="codeForm" class="form-stack" hidden><label for="loginCode">Kode dari Telegram</label><input id="loginCode" inputmode="numeric" autocomplete="one-time-code" maxlength="16" required><button class="primary-button" type="submit">Verifikasi kode</button></form>
+        <form id="twoFactorForm" class="form-stack" hidden><label for="twoFactorPassword">Password verifikasi dua langkah</label><input id="twoFactorPassword" type="password" autocomplete="current-password" maxlength="256" required><button class="primary-button" type="submit">Verifikasi password</button></form>
+        <div id="telegramMessage" class="feedback" role="status" aria-live="polite" hidden></div>
+      </article>
+      <article class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">02 <span>/</span> SIGNAL SOURCES</p><h2>Grup sumber</h2></div><button id="refreshGroups" class="secondary-button" type="button">Muat grup</button></div>
+        <p class="muted">Centang grup yang boleh memasukkan signal. Sinyal dari chat pribadi dan grup yang tidak dipilih akan diabaikan.</p>
+        <div id="groupsList" class="groups-list"><div class="empty">Login Telegram untuk memuat grup.</div></div>
+        <button id="saveGroups" class="primary-button" type="button" disabled>Simpan pilihan grup</button>
+        <div id="groupsMessage" class="feedback" role="status" aria-live="polite" hidden></div>
+      </article>
+    </section>
+    <section class="grid-two lower-grid">
+      <article class="panel live-panel">
+        <div class="panel-heading"><div><p class="eyebrow">03 <span>/</span> MASTER EXECUTION</p><h2>Eksekusi signal</h2></div><span id="liveBadge" class="live-badge">NONAKTIF</span></div>
+        <p class="muted">Mode live selalu nonaktif saat aplikasi baru dijalankan. Aktifkan setelah Telegram, Gemini, grup sumber, akun utama, dan EA menunjukkan siap.</p>
+        <label class="live-control"><span><strong>Izinkan signal baru membuat order</strong><small id="liveDescription">Order dikirim dari terminal master sesuai lot dan batas risiko EA.</small></span><input id="liveSwitch" type="checkbox" aria-label="Aktifkan eksekusi signal live"></label>
+        <div class="risk-note"><strong>Live trading punya risiko finansial.</strong><span>EA memakai 0.01 lot tetap, maksimal dua entry, SL dari signal, TP 1:1, dan expiry pending satu jam. BUY memakai BUY LIMIT di bawah harga pasar / BUY STOP di atas; SELL memakai SELL LIMIT di atas / SELL STOP di bawah. Dua entry perlu akun MT5 mode hedging. Uji di akun demo sebelum akun real.</span></div>
+        <div class="webrequest-note"><strong>Persiapan MT5 satu kali</strong><span>Tambahkan <code id="webrequestURL">http://127.0.0.1:8080</code> di Tools → Options → Expert Advisors → Allow WebRequest for listed URL, lalu aktifkan AutoTrading. Jika koneksi master pertama timeout, jendela terminal portable tetap terbuka untuk pengaturan; setelah allowlist disimpan, sambungkan ulang. Data terminal ada di <code>data/copy-trading/terminals/</code>.</span></div>
+        <div id="liveMessage" class="feedback" role="status" aria-live="polite" hidden></div>
+      </article>
+      <article class="panel">
+        <div class="panel-heading"><div><p class="eyebrow">04 <span>/</span> GEMINI PREVIEW</p><h2>Uji parsing signal</h2></div><span class="step">AI</span></div>
+        <p class="muted">Parsing contoh tidak mengirim order. Direction, zona, SL, dan dua target 1:1 divalidasi kembali oleh aplikasi.</p>
+        <textarea id="sampleMessage" rows="7" aria-label="Contoh pesan Telegram">XAUUSD SELL NOW 4054:::4063
+
+✔️ Tp1 4050
+✔️ Tp2 4045
+❌ SL 4070</textarea>
+        <button id="testParser" class="secondary-button" type="button">Uji parsing Gemini</button>
+        <pre id="parseResult" class="parse-result" hidden></pre>
+        <div id="parseMessage" class="feedback" role="status" aria-live="polite" hidden></div>
+      </article>
+    </section>
+    <section class="panel performance-panel">
+      <div class="panel-heading performance-heading"><div><p class="eyebrow">05 <span>/</span> SIGNAL HISTORY</p><h2>Performa &amp; riwayat</h2></div><div class="metrics"><div><small>WINRATE</small><strong id="winrate">0%</strong></div><div><small>WIN / LOSS</small><strong id="winLoss">0 / 0</strong></div><div><small>NET P/L</small><strong id="netProfit">0</strong></div><div><small>TOTAL SIGNAL</small><strong id="signalTotal">0</strong></div></div></div>
+      <div class="table-wrap"><table><thead><tr><th>WAKTU</th><th>GRUP</th><th>ARAH / SIMBOL</th><th>ENTRY ZONE</th><th>SL · TP 1:1</th><th>HASIL / P&amp;L</th><th>STATUS</th></tr></thead><tbody id="signalRows"><tr><td colspan="7" class="empty">Belum ada signal.</td></tr></tbody></table></div>
+      <p class="table-foot">Winrate dihitung dari posisi yang ditutup dengan WIN atau LOSS. BE dan pending yang kedaluwarsa dikecualikan. Statistik tidak menjamin hasil trading berikutnya.</p>
+    </section>
+    <footer>ALGENTRA CAPITAL · ADMIN SIGNAL DESK</footer>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  </main>
+</body>
+</html>

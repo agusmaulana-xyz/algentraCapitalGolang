@@ -1,0 +1,11 @@
+/.cache/
+/.tmp/
+/.env
+/.env.*
+!/.env.example
+/data/
+/mt5-login.exe
+/mt5-login.test.exe
+/mt5-login.db
+/mt5-login.db-shm
+/mt5-login.db-wal
